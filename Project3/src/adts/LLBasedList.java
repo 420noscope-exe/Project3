@@ -5,9 +5,20 @@ import nodes.LLNode;
 
 public class LLBasedList<E> implements ListInterface<E> {
 
+	private LLNode<E> head = null;
+	private LLNode<E> tail = null;
+	
 	@Override
-	public void add(E element) {
-		// TODO Auto-generated method stub
+	public void add(E element) { //Wes
+		if(isEmpty()) {
+			head = new LLNode<>(element);
+			tail = head;
+		}else {
+			LLNode<E> currentNode = tail;
+			tail.setNext(new LLNode<>(element));
+			tail = tail.getNext();
+			tail.setPrev(currentNode);
+		}
 		
 	}
 
@@ -18,14 +29,25 @@ public class LLBasedList<E> implements ListInterface<E> {
 	}
 
 	@Override
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int size() { //Wes
+		if(isEmpty()) {
+			return 0;
+		} else {
+			int result = 1;
+			LLNode<E> currentNode = head;
+			while(currentNode.getNext() != null) {
+				currentNode = currentNode.getNext();
+				result++;
+			}
+			return result;
+		}
 	}
 
 	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+	public boolean isEmpty() { //Wes
+		if(head == null) {
+			return true;
+		}
 		return false;
 	}
 
