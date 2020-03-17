@@ -6,18 +6,44 @@ import nodes.LLNode;
 public class LLBasedList<E> implements ListInterface<E> {
 
 	private LLNode<E> head = null;
-	private LLNode<E> tail = null;
+	private int length = 0;
+	
+	
+	public LLBasedList(){
+		
+	}
 	
 	@Override
 	public void add(E element) { //Wes
 		if(isEmpty()) {
 			head = new LLNode<>(element);
-			tail = head;
+			length++;
 		}else {
-			LLNode<E> currentNode = tail;
-			tail.setNext(new LLNode<>(element));
-			tail = tail.getNext();
-			tail.setPrev(currentNode);
+			LLNode<E> currentNode = head;
+			int i = 0;
+			while(i < length) {
+				if(((Comparable)element).compareTo(currentNode.getInfo()) > 0) {
+					if(currentNode.getNext() != null) {
+						currentNode = currentNode.getNext();
+					}else {
+						break;
+					}
+				}else {
+					break;
+				}
+				++i;
+			}
+			LLNode<E> newNode = new LLNode<E>(element);
+			LLNode<E> lastNode = currentNode;
+			LLNode<E> nextNode = currentNode.getNext();
+			newNode.setPrev(currentNode);	
+			newNode.setNext(currentNode.getNext());	
+			currentNode.setNext(newNode);
+			if(nextNode != null) {
+				nextNode.setPrev(newNode);
+			}
+			length++;
+			System.out.println(length + " " + head.getInfo().toString());//test
 		}
 		
 	}
@@ -30,17 +56,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 
 	@Override
 	public int size() { //Wes
-		if(isEmpty()) {
-			return 0;
-		} else {
-			int result = 1;
-			LLNode<E> currentNode = head;
-			while(currentNode.getNext() != null) {
-				currentNode = currentNode.getNext();
-				result++;
-			}
-			return result;
-		}
+		return length;
 	}
 
 	@Override
@@ -74,5 +90,17 @@ public class LLBasedList<E> implements ListInterface<E> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	@Override
+	public String toString() { //Wes
+		String result = "";
+		LLNode<E> currentNode = head;
+		while(currentNode.getNext() != null) {
+			result = result + currentNode.getInfo().toString() + "\n";
+			currentNode = currentNode.getNext();
+		}
+		result += currentNode.getInfo().toString() + "\n";
+		return result;
+	}
+	
 }
