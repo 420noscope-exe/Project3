@@ -40,6 +40,17 @@ public class LLListTest {
 		System.out.println(list.find("Apple") ? "Found" : "Not Found");
 		String getTest = list.get("Apple");
 		System.out.println("Got " + getTest + " from list.");
+		System.out.println("List contains Apple: " + list.contains("Apple"));
+		
+		LLBasedList<String> getNextTest = new LLBasedList<String>();
+		getNextTest.add("A");
+		getNextTest.add("B");
+		getNextTest.add("C");
+		System.out.println(getNextTest.getNextItem());
+		System.out.println(getNextTest.getNextItem());
+		System.out.println(getNextTest.getNextItem());
+		System.out.println(getNextTest.getNextItem()); //Loop back to start of list
+		
 		
 
 	}

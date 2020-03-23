@@ -6,8 +6,9 @@ import nodes.LLNode;
 public class LLBasedList<E> implements ListInterface<E> {
 
 	private LLNode<E> head = null;
+	private LLNode<E> tail = null;
 	private int length = 0;
-	private LLNode<E> location = null;
+	private LLNode<E> forwardIterator = null;
 	
 	
 	public LLBasedList(){
@@ -18,6 +19,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 	public void add(E element) { //Wes
 		if(isEmpty()) {
 			head = new LLNode<>(element);
+			resetIterator();
 			length++;
 		}else {
 			LLNode<E> currentNode = head;
@@ -36,6 +38,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 			}
 			LLNode<E> newNode = new LLNode<E>(element);
 			LLNode<E> lastNode = currentNode;
+			LLNode<E> tailNode = currentNode;
 			LLNode<E> nextNode = currentNode.getNext();
 			newNode.setPrev(currentNode);	
 			newNode.setNext(currentNode.getNext());	
@@ -43,6 +46,9 @@ public class LLBasedList<E> implements ListInterface<E> {
 			if(nextNode != null) {
 				nextNode.setPrev(newNode);
 			}
+			while(tailNode.getNext() != null)
+				tailNode = tailNode.getNext();
+			tail = tailNode;
 			length++;
 			System.out.println(length + " " + head.getInfo().toString());//test
 		}
@@ -52,15 +58,16 @@ public class LLBasedList<E> implements ListInterface<E> {
 	public boolean find(E element) //Alex
 	{
 		//Linear search
+		int i = 0;
 		resetIterator();
-		while(location != null)
+		while((((Comparable)element).compareTo(getNextItem()) != 0))
 		{
-			if(((Comparable)element).compareTo(location.getInfo()) == 0)
-				return true;
-			else
-				location = location.getNext();
+			if(i == length)
+				return false;
+			i++;
 		}
-		return false;
+		
+		return true;
 	}
 
 	@Override
@@ -90,21 +97,30 @@ public class LLBasedList<E> implements ListInterface<E> {
 	@Override
 	public E get(E element) { //Alex
 		if(find(element))
-			return location.getInfo();
+			return forwardIterator.getInfo();
 		else
 			return null;
 	}
 
 	@Override
 	public void resetIterator() { //Alex
-		location = head;
-		
+		if(head == null)
+			return;
+		forwardIterator = new LLNode<E>(head.getInfo()); //Just placeholder info doesn't matter what's inside
+		forwardIterator.setNext(head);
 	}
 
 	@Override
 	public E getNextItem() {
-		// TODO Auto-generated method stub
-		return null;
+		if(forwardIterator == null)
+			return null;
+		forwardIterator = forwardIterator.getNext();
+		if(forwardIterator == tail)
+		{
+			resetIterator();
+			return tail.getInfo();
+		}
+		return forwardIterator.getInfo();
 	}
 	
 	@Override
