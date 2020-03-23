@@ -7,6 +7,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 
 	private LLNode<E> head = null;
 	private int length = 0;
+	private LLNode<E> location = null;
 	
 	
 	public LLBasedList(){
@@ -47,6 +48,20 @@ public class LLBasedList<E> implements ListInterface<E> {
 		}
 		
 	}
+	
+	public boolean find(E element) //Alex
+	{
+		//Linear search
+		resetIterator();
+		while(location != null)
+		{
+			if(((Comparable)element).compareTo(location.getInfo()) == 0)
+				return true;
+			else
+				location = location.getNext();
+		}
+		return false;
+	}
 
 	@Override
 	public boolean remove(E element) {
@@ -68,20 +83,21 @@ public class LLBasedList<E> implements ListInterface<E> {
 	}
 
 	@Override
-	public boolean contains(E element) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean contains(E element) { //Alex
+		return find(element);
 	}
 
 	@Override
-	public E get(E element) {
-		// TODO Auto-generated method stub
-		return null;
+	public E get(E element) { //Alex
+		if(find(element))
+			return location.getInfo();
+		else
+			return null;
 	}
 
 	@Override
-	public void resetIterator() {
-		// TODO Auto-generated method stub
+	public void resetIterator() { //Alex
+		location = head;
 		
 	}
 

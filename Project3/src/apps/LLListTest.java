@@ -36,6 +36,11 @@ public class LLListTest {
 		
 		System.out.print(list);
 		
+		list.add("Apple");
+		System.out.println(list.find("Apple") ? "Found" : "Not Found");
+		String getTest = list.get("Apple");
+		System.out.println("Got " + getTest + " from list.");
+		
 
 	}
 
