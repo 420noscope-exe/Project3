@@ -17,42 +17,47 @@ public class LLBasedList<E> implements ListInterface<E> {
 	
 	@Override
 	public void add(E element) { //Wes
+		length++;
 		if(isEmpty()) {
 			head = new LLNode<>(element);
 			resetIterator();
-			length++;
 		}else {
 			LLNode<E> currentNode = head;
-			int i = 0;
-			while(i < length) {
-				if(((Comparable)element).compareTo(currentNode.getInfo()) > 0) {
-					if(currentNode.getNext() != null) {
-						currentNode = currentNode.getNext();
+			if (((Comparable)element).compareTo(currentNode.getInfo()) < 0) {	// If element comes before head
+				head = new LLNode<E>(element);
+				head.setNext(currentNode);
+				currentNode.setPrev(head);
+			}
+			else {
+				int i = 0;
+				while(i < length) {
+					if(((Comparable)element).compareTo(currentNode.getInfo()) > 0) {	// If element is greater than
+						if(currentNode.getNext() != null) {	// and if not last node
+							currentNode = currentNode.getNext();	// check next node
+						}else {	// and if last node
+						break;
+						}
 					}else {
+						currentNode = currentNode.getPrev();
 						break;
 					}
-				}else {
-					break;
+					++i;
 				}
-				++i;
+				LLNode<E> newNode = new LLNode<E>(element);
+				LLNode<E> tailNode = currentNode;
+				LLNode<E> nextNode = currentNode.getNext();
+				newNode.setPrev(currentNode);	
+				newNode.setNext(currentNode.getNext());	
+				currentNode.setNext(newNode);
+				if(nextNode != null) {
+					nextNode.setPrev(newNode);
+				}
+				while (tailNode.getNext() != null) {
+					tailNode = tailNode.getNext();
+					tail = tailNode;
+				}
 			}
-			LLNode<E> newNode = new LLNode<E>(element);
-			LLNode<E> lastNode = currentNode;
-			LLNode<E> tailNode = currentNode;
-			LLNode<E> nextNode = currentNode.getNext();
-			newNode.setPrev(currentNode);	
-			newNode.setNext(currentNode.getNext());	
-			currentNode.setNext(newNode);
-			if(nextNode != null) {
-				nextNode.setPrev(newNode);
-			}
-			while(tailNode.getNext() != null)
-				tailNode = tailNode.getNext();
-			tail = tailNode;
-			length++;
-			System.out.println(length + " " + head.getInfo().toString());//test
 		}
-		
 	}
 	
 	public boolean find(E element) //Alex
