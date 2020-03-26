@@ -23,7 +23,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 			resetIterator();
 		}else {
 			LLNode<E> currentNode = head;
-			if (((Comparable)element).compareTo(currentNode.getInfo()) < 0) {	// If element comes before head
+			if (((Comparable)element).compareTo(currentNode.getInfo()) <= 0) {	// If element comes before head
 				head = new LLNode<E>(element);
 				head.setNext(currentNode);
 				currentNode.setPrev(head);
