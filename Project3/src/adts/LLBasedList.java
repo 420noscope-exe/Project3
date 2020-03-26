@@ -74,9 +74,15 @@ public class LLBasedList<E> implements ListInterface<E> {
 		
 		return true;
 	}
+	
+	public boolean find2(E element) { // Currently Working
+		int low = 0;
+		int high = length - 1;
+	}
+	
 
 	@Override
-	public boolean remove(E element) {
+	public boolean remove(E element) { // Not Started
 		// TODO Auto-generated method stub
 		return false;
 	}
