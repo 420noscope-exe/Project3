@@ -9,12 +9,12 @@ public class LLBasedList<E> implements ListInterface<E> {
 	private LLNode<E> tail = null;
 	private int length = 0;
 	private LLNode<E> forwardIterator = null;
-	
-	
+	private LLNode<E> backIterator = null;
+
 	public LLBasedList(){
-		
+
 	}
-	
+
 	@Override
 	public void add(E element) { //Wes
 		length++;
@@ -35,7 +35,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 						if(currentNode.getNext() != null) {	// and if not last node
 							currentNode = currentNode.getNext();	// check next node
 						}else {	// and if last node
-						break;
+							break;
 						}
 					}else {
 						currentNode = currentNode.getPrev();
@@ -59,7 +59,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 			}
 		}
 	}
-	
+
 	public boolean find(E element) //Alex
 	{
 		//Linear search
@@ -71,7 +71,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 				return false;
 			i++;
 		}
-		
+
 		return true;
 	}
 
@@ -115,6 +115,23 @@ public class LLBasedList<E> implements ListInterface<E> {
 		forwardIterator.setNext(head);
 	}
 
+	public void resetBackIterator() {
+		//set the current position for getPrevItem() to the last item on the list
+
+	}
+
+	public E getPrevItem() { //Lina
+		E temp = backIterator.getInfo();
+
+		if(backIterator == head) {
+			backIterator = tail;
+		} else 
+		{
+			backIterator = backIterator.getPrev();
+		}
+		return temp;
+	}
+
 	@Override
 	public E getNextItem() {
 		if(forwardIterator == null)
@@ -127,7 +144,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 		}
 		return forwardIterator.getInfo();
 	}
-	
+
 	@Override
 	public String toString() { //Wes
 		String result = "";
@@ -139,5 +156,5 @@ public class LLBasedList<E> implements ListInterface<E> {
 		result += currentNode.getInfo().toString() + "\n";
 		return result;
 	}
-	
+
 }
