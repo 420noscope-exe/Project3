@@ -16,7 +16,6 @@ public class LLBasedList<E> implements ListInterface<E> {
 		
 	}
 	
-	@Override
 	public void add(E element) { //Wes
 		length++;
 		if(isEmpty()) {
@@ -76,18 +75,15 @@ public class LLBasedList<E> implements ListInterface<E> {
 		return true;
 	}
 
-	@Override
 	public boolean remove(E element) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public int size() { //Wes
 		return length;
 	}
 
-	@Override
 	public boolean isEmpty() { //Wes
 		if(head == null) {
 			return true;
@@ -95,12 +91,10 @@ public class LLBasedList<E> implements ListInterface<E> {
 		return false;
 	}
 
-	@Override
 	public boolean contains(E element) { //Alex
 		return find(element);
 	}
 
-	@Override
 	public E get(E element) { //Alex
 		if(find(element))
 			return forwardIterator.getInfo();
@@ -108,7 +102,6 @@ public class LLBasedList<E> implements ListInterface<E> {
 			return null;
 	}
 
-	@Override
 	public void resetIterator() { //Alex
 		if(head == null)
 			return;
@@ -128,7 +121,6 @@ public class LLBasedList<E> implements ListInterface<E> {
 		return temp;
 	}
 
-	@Override
 	public E getNextItem() {
 		if(forwardIterator == null)
 			return null;
@@ -141,7 +133,6 @@ public class LLBasedList<E> implements ListInterface<E> {
 		return forwardIterator.getInfo();
 	}
 	
-	@Override
 	public String toString() { //Wes
 		String result = "";
 		LLNode<E> currentNode = head;
