@@ -75,7 +75,64 @@ public class LLBasedList<E> implements ListInterface<E> {
 		
 		return true;
 	}
-
+	public boolean find2(E element) {
+		// Make an array.
+		E[] array = (E[]) new Object[length];	// This is from the first test. `LLode<E>[] array = new LLNode<E>[length]` generates the message: "Cannot create a generic array of LLNode<E>".
+		// Put the linked list in the array.
+		resetIterator();
+		int i = 0;
+		while (forwardIterator.getNext() != null) {
+			array[i++] = forwardIterator.getNext().getInfo();
+			forwardIterator = forwardIterator.getNext();
+		}
+		int low = 0,
+			high = array.length - 1,
+			mid = (int)( ( high + low ) / 2);
+		/*
+		int turnCount = 1;							// Test code
+		System.out.println("Turn " + turnCount++);	// Test code
+		System.out.println("Low: " + low);			// Test code
+		System.out.println("Mid: " + mid);			// Test code
+		System.out.println("High: " + high);		// Test code
+		System.out.println();						// Test code
+		*/
+		// Loop while the high point is not less than the low point.
+		while ( !(high < low) ) {
+			// Compare the element to the mid-point.
+			// If the element is more than the mid-point, then the low point becomes one above the mid-point.
+			if ( ( ( (Comparable<E>) element ) .compareTo (array[mid]) ) > 0 ) {
+				//System.out.println("Turn " + turnCount++);			// Test code
+				low = mid + 1;
+				/*
+				mid = (int)( ( high + low ) / 2 ); 						// Test code
+				System.out.println("Low: " + low);						// Test code
+				System.out.println("Mid: " + ( (low + high) / 2) );		// Test code
+				System.out.println("High: " + high);					// Test code
+				System.out.println();									// Test code
+				*/
+			}
+			// If the element is equal to the mid-point, then return true.
+			else {
+				if ( ( ( (Comparable<E>) element ) .compareTo (array[mid]) ) == 0 )
+					return true;
+				// If the element is less than the mid-point, then the high point becomes one below the mid-point.
+				else {
+					//System.out.println("Turn " + turnCount++);	// Test code
+					high = mid - 1;
+					/*
+					mid = (int)( ( high + low ) / 2 );				// Test code
+					System.out.println("Low: " + low);				// Test code
+					System.out.println("Mid: " + mid);				// Test code
+					System.out.println("High: " + high);			// Test code
+					System.out.println();							// Test code
+					*/
+				}
+			}
+			// Reposition the mid-point.
+			mid = (int)( ( high + low ) / 2 );	//	COMMENT THIS OUT DURING TESTING; DO NOT DELETE THIS!
+		}
+		return false;
+	}
 	@Override
 	public boolean remove(E element) {
 		// TODO Auto-generated method stub
