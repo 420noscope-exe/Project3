@@ -9,6 +9,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 	private LLNode<E> tail = null;
 	private int length = 0;
 	private LLNode<E> forwardIterator = null;
+	private LLNode<E> backIterator = null;
 	
 	
 	public LLBasedList(){
@@ -113,6 +114,18 @@ public class LLBasedList<E> implements ListInterface<E> {
 			return;
 		forwardIterator = new LLNode<E>(head.getInfo()); //Just placeholder info doesn't matter what's inside
 		forwardIterator.setNext(head);
+	}
+		
+	public E getPrevItem() { //Lina
+		E temp = backIterator.getInfo();
+
+		if(backIterator == head) {
+			backIterator = tail;
+		} else 
+		{
+			backIterator = backIterator.getPrev();
+		}
+		return temp;
 	}
 
 	@Override
