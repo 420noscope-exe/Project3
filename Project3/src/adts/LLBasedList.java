@@ -115,18 +115,6 @@ public class LLBasedList<E> implements ListInterface<E> {
 		forwardIterator = new LLNode<E>(head.getInfo()); //Just placeholder info doesn't matter what's inside
 		forwardIterator.setNext(head);
 	}
-		
-	public E getPrevItem() { //Lina
-		E temp = backIterator.getInfo();
-
-		if(backIterator == head) {
-			backIterator = tail;
-		} else 
-		{
-			backIterator = backIterator.getPrev();
-		}
-		return temp;
-	}
 
 	@Override
 	public E getNextItem() {
@@ -139,6 +127,25 @@ public class LLBasedList<E> implements ListInterface<E> {
 			return tail.getInfo();
 		}
 		return forwardIterator.getInfo();
+	}
+	
+	public void resetBackIterator() { //Lina
+		if(tail == null)
+			return;
+		backIterator = new LLNode<E>(tail.getInfo()); 
+		backIterator.setPrev(tail);
+	}
+	
+	public E getPrevItem() { //Lina
+		if(backIterator == null)
+			return null;
+		backIterator = backIterator.getPrev();
+		if(backIterator == head)
+		{
+			resetBackIterator();
+			return head.getInfo();
+		}
+		return backIterator.getInfo();
 	}
 	
 	@Override
