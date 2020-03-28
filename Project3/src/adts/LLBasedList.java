@@ -75,8 +75,11 @@ public class LLBasedList<E> implements ListInterface<E> {
 		return true;
 	}
 
-	public boolean remove(E element) {
-		// TODO Auto-generated method stub
+	public boolean remove(E element) { //Saleem
+		if(find(element)) {
+			forwardIterator.getPrev().setNext(forwardIterator.getNext());
+			forwardIterator.getNext().setPrev(forwardIterator.getPrev());
+		}
 		return false;
 	}
 
