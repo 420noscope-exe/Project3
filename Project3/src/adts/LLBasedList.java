@@ -75,8 +75,26 @@ public class LLBasedList<E> implements ListInterface<E> {
 		return true;
 	}
 
-	public boolean remove(E element) { 
-		return false;
+	public boolean remove(E element) { //Saleem
+		if(find(element)) {
+			if((((Comparable)element).compareTo(head.getInfo()) == 0)) {
+				head = head.getNext();
+				head.setPrev(null);
+				
+			}
+			else if((((Comparable)element).compareTo(tail.getInfo()) == 0)) {
+				tail = tail.getPrev();
+				tail.setNext(null);
+			}
+			else {
+				forwardIterator.getPrev().setNext(forwardIterator.getNext());
+				forwardIterator.getNext().setPrev(forwardIterator.getPrev());
+			}
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public int size() { //Wes
