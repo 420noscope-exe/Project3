@@ -52,7 +52,7 @@ public class LLListTest {
 		System.out.println(getNextTest.getNextItem()); //Loop back to start of list
 		
 		//getPrevItem test - buggy - shows all null values during testing
-		System.out.println("testing previous below");
+		System.out.println("testing getPrevItem below");
 		LLBasedList<String> getPrevTest = new LLBasedList<String>();
 		getPrevTest.add("A");
 		getPrevTest.add("B");
