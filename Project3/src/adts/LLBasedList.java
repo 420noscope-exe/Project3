@@ -36,6 +36,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 			head = new LLNode<>(element);
 			tail = head;
 			resetIterator();
+			resetBackIterator();
 		}else {
 			LLNode<E> currentNode = head;
 			if (((Comparable)element).compareTo(currentNode.getInfo()) <= 0) {	// If element comes before head
@@ -77,7 +78,15 @@ public class LLBasedList<E> implements ListInterface<E> {
 		}
 	}
 	
-	public boolean find(E element)
+	public void setFind(int find)
+	{
+		if(find == 2)
+			findMethod = 2;
+		else
+			findMethod = 1;
+	}
+	
+	protected boolean find(E element)
 	{
 		if(findMethod == 1)
 			return find1(element);
@@ -86,9 +95,11 @@ public class LLBasedList<E> implements ListInterface<E> {
 		return false;
 	}
 	
-	public boolean find1(E element) //Alex
+	protected boolean find1(E element) //Alex
 	{
 		//Linear search
+		if(isEmpty())
+			return false;
 		foundItem = null;
 		int i = 0;
 		resetIterator();
@@ -102,7 +113,9 @@ public class LLBasedList<E> implements ListInterface<E> {
 		resetIterator();
 		return true;
 	}
-	public boolean find2(E element) {
+	protected boolean find2(E element) {
+		if(isEmpty())
+			return false;
 		// Make an array.
 		
 		// Put the linked list in the array.
@@ -174,11 +187,33 @@ public class LLBasedList<E> implements ListInterface<E> {
 		if(find(element))
 		{
 			changed = true;
-			if(foundItem.getPrev() != null)
+			if(head == tail)
+			{
+				head = null;
+				tail = null;
+				forwardIterator = null;
+				backIterator = null;
+			}
+			else if(foundItem == head)
+			{
+				head = foundItem.getNext();
+				foundItem.getNext().setPrev(null);
+				resetIterator();
+			}
+			else if(foundItem == tail)
+			{
+				tail = foundItem.getPrev();
+				foundItem.getPrev().setNext(null);
+				resetBackIterator();
+			}
+			else
+			{
 				foundItem.getPrev().setNext(foundItem.getNext());
-			if(foundItem.getNext() != null)
 				foundItem.getNext().setPrev(foundItem.getPrev());
+			}
+			length--;
 			return true;
+			
 		}
 		return false;
 	}
