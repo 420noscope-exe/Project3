@@ -61,6 +61,19 @@ public class LLListTest {
 		System.out.println(getPrevTest.getPrevItem());
 		System.out.println(getPrevTest.getPrevItem());
 		System.out.println(getPrevTest.getPrevItem());
+		
+		
+		LLBasedList<String> find2 = new LLBasedList<String>(2); //Using find2 method
+		find2.add("Apple");
+		find2.add("Orange");
+		find2.add("Pear");
+		find2.add("Banana");
+		System.out.println(find2.find("Pear") ? "Found" : "Not Found");
+		System.out.println(find2.get("Orange") + " Gotten from list");
+		System.out.println(find2);
+		System.out.println(find2.remove("Banana") ? "Removed banana from list" : "Does not exist on list");
+		System.out.println(find2);
+		System.out.println(find2.find("Banana") ? "Found" : "Not Found");
 
 	}
 
