@@ -72,6 +72,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 					tailNode = tailNode.getNext();
 					tail = tailNode;
 				}
+				resetBackIterator();
 			}
 		}
 	}
