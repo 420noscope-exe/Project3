@@ -20,7 +20,7 @@ public class PerformanceTest {
 		for (int i = 0; i < 5; i++) {
 			int num = (int) (Math.random() * size);
 			StartTime = System.nanoTime();
-			list.find(num);
+			list.find1(num);
 			EndTime = System.nanoTime();
 			
 			System.out.println("Time in microseconds to search for random number " + num + " using a linear search: " + (EndTime - StartTime) / 1000 + " microseconds");
