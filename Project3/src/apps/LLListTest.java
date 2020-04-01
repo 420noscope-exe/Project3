@@ -9,8 +9,11 @@ public class LLListTest {
 	public static void main(String[] args) {
 		
 		list.add("A");
+		System.out.println(list.size());
 		list.add("B");
+		System.out.println(list.size());
 		list.add("C");
+		System.out.println(list.size());
 		list.add("D");
 		list.add("E");
 		list.add("F");
@@ -33,6 +36,7 @@ public class LLListTest {
 		list.add("B");
 		list.add("D");
 		list.add("E");
+		System.out.println(list.size());
 		
 		System.out.print(list);
 		
@@ -65,21 +69,30 @@ public class LLListTest {
 		
 		LLBasedList<String> find2 = new LLBasedList<String>(2); //Using find2 method also testing remove
 		find2.add("Apple");
+		System.out.println(find2.size());
 		find2.add("Orange");
+		System.out.println(find2.size());
 		find2.add("Pear");
+		System.out.println(find2.size());
 		find2.add("Banana");
+		System.out.println(find2.size());
 		//System.out.println(find2.find("Pear") ? "Found" : "Not Found");
 		System.out.println(find2.get("Orange") + " Gotten from list");
 		System.out.println(find2);
 		System.out.println(find2.remove("Banana") ? "Removed banana from list" : "Banana does not exist on list");
 		System.out.println(find2);
+		System.out.println(find2.size());
 		//System.out.println(find2.find("Banana") ? "Found" : "Not Found");
 		System.out.println(find2.remove("Apple") ? "Removed Apple from list" : "Apple does not exist on list");
 		System.out.println(find2);
+		System.out.println(find2.size());
 		System.out.println(find2.remove("Pear") ? "Removed Pear from list" : "Pear does not exist on list");
+		System.out.println(find2.size());
 		System.out.println(find2.remove("Carrot") ? "Removed Carrot from list" : "Carrot does not exist on list");
+		System.out.println(find2.size());
 		System.out.println(find2);
 		System.out.println(find2.remove("Orange") ? "Removed Orange from list" : "Orange does not exist on list");
+		System.out.println(find2.size());
 		System.out.println(find2.isEmpty() ? "List is empty" : "List is not empty");
 	}
 
