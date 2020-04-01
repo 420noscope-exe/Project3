@@ -81,6 +81,7 @@ public class LLListTest {
 		System.out.println(find2);
 		System.out.println(find2.remove("Orange") ? "Removed Orange from list" : "Orange does not exist on list");
 		System.out.println(find2.isEmpty() ? "List is empty" : "List is not empty");
+		
 	}
 
 }

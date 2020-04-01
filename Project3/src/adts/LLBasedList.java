@@ -101,16 +101,19 @@ public class LLBasedList<E> implements ListInterface<E> {
 		if(isEmpty())
 			return false;
 		foundItem = null;
+		LLNode<E> item = head;
 		int i = 0;
-		resetIterator();
-		while((((Comparable)element).compareTo(getNextItem()) != 0))
+		while(true)
 		{
 			if(i == length)
 				return false;
 			i++;
+			if((((Comparable)element).compareTo(item.getInfo()) == 0))
+				break;
+			item = item.getNext();
+			
 		}
-		foundItem = forwardIterator;
-		resetIterator();
+		foundItem = item;
 		return true;
 	}
 	protected boolean find2(E element) {
@@ -286,6 +289,8 @@ public class LLBasedList<E> implements ListInterface<E> {
 	
 	@Override
 	public String toString() { //Wes
+		if(isEmpty())
+			return "List is empty";
 		String result = "";
 		LLNode<E> currentNode = head;
 		while(currentNode.getNext() != null) {
