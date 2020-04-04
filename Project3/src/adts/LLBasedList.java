@@ -1,5 +1,7 @@
 package adts;
 
+import java.lang.reflect.Array;
+
 import interfaces.ListInterface;
 import nodes.LLNode;
 
@@ -10,10 +12,21 @@ public class LLBasedList<E> implements ListInterface<E> {
 	private int length = 0;
 	private LLNode<E> forwardIterator = null;
 	private LLNode<E> backIterator = null;
-	
+	private LLNode<E> foundItem = null;
+	private int findMethod = 1;
+	private boolean changed = false;
+	private LLNode<E>[] array;
 	
 	public LLBasedList(){
 		
+	}
+	
+	public LLBasedList(int findMethod)
+	{
+		if(findMethod == 2)
+			this.findMethod = 2;
+		else
+			this.findMethod = 1;
 	}
 	
 	@Override
@@ -21,7 +34,9 @@ public class LLBasedList<E> implements ListInterface<E> {
 		length++;
 		if(isEmpty()) {
 			head = new LLNode<>(element);
+			tail = head;
 			resetIterator();
+			resetBackIterator();
 		}else {
 			LLNode<E> currentNode = head;
 			if (((Comparable)element).compareTo(currentNode.getInfo()) <= 0) {	// If element comes before head
@@ -50,6 +65,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 				newNode.setPrev(currentNode);	
 				newNode.setNext(currentNode.getNext());	
 				currentNode.setNext(newNode);
+				changed = true;
 				if(nextNode != null) {
 					nextNode.setPrev(newNode);
 				}
@@ -57,33 +73,66 @@ public class LLBasedList<E> implements ListInterface<E> {
 					tailNode = tailNode.getNext();
 					tail = tailNode;
 				}
+				resetBackIterator();
 			}
 		}
 	}
 	
-	public boolean find(E element) //Alex
+	public void setFind(int find)
+	{
+		if(find == 2)
+			findMethod = 2;
+		else
+			findMethod = 1;
+	}
+	
+	protected boolean find(E element)
+	{
+		if(findMethod == 1)
+			return find1(element);
+		if(findMethod == 2)
+			return find2(element);
+		return false;
+	}
+	
+	protected boolean find1(E element) //Alex
 	{
 		//Linear search
+		if(isEmpty())
+			return false;
+		foundItem = null;
+		LLNode<E> item = head;
 		int i = 0;
-		resetIterator();
-		while((((Comparable)element).compareTo(getNextItem()) != 0))
+		while(true)
 		{
 			if(i == length)
 				return false;
 			i++;
+			if((((Comparable)element).compareTo(item.getInfo()) == 0))
+				break;
+			item = item.getNext();
+			
 		}
-		
+		foundItem = item;
 		return true;
 	}
-	public boolean find2(E element) {
+	protected boolean find2(E element) {
+		if(isEmpty())
+			return false;
 		// Make an array.
-		E[] array = (E[]) new Object[length];	// This is from the first test. `LLode<E>[] array = new LLNode<E>[length]` generates the message: "Cannot create a generic array of LLNode<E>".
+		
 		// Put the linked list in the array.
+		foundItem = null;
 		resetIterator();
 		int i = 0;
+		if(changed)
+		{
+			array = (LLNode<E>[])Array.newInstance((head.getClass()), length);//(LLNode<E>[])new Object[length];//(LLNode<E>[]) new Object[length];	// This is from the first test. `LLode<E>[] array = new LLNode<E>[length]` generates the message: "Cannot create a generic array of LLNode<E>".
 		while (forwardIterator.getNext() != null) {
-			array[i++] = forwardIterator.getNext().getInfo();
+			array[i++] = forwardIterator.getNext();//.getInfo();
 			forwardIterator = forwardIterator.getNext();
+		}
+		changed = false;
 		}
 		int low = 0,
 			high = array.length - 1,
@@ -100,7 +149,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 		while ( !(high < low) ) {
 			// Compare the element to the mid-point.
 			// If the element is more than the mid-point, then the low point becomes one above the mid-point.
-			if ( ( ( (Comparable<E>) element ) .compareTo (array[mid]) ) > 0 ) {
+			if ( ( ( (Comparable<E>) element ) .compareTo (array[mid].getInfo()) ) > 0 ) {
 				//System.out.println("Turn " + turnCount++);			// Test code
 				low = mid + 1;
 				/*
@@ -113,8 +162,11 @@ public class LLBasedList<E> implements ListInterface<E> {
 			}
 			// If the element is equal to the mid-point, then return true.
 			else {
-				if ( ( ( (Comparable<E>) element ) .compareTo (array[mid]) ) == 0 )
+				if ( ( ( (Comparable<E>) element ) .compareTo (array[mid].getInfo()) ) == 0 )
+				{
+					foundItem = array[mid];
 					return true;
+				}
 				// If the element is less than the mid-point, then the high point becomes one below the mid-point.
 				else {
 					//System.out.println("Turn " + turnCount++);	// Test code
@@ -135,7 +187,37 @@ public class LLBasedList<E> implements ListInterface<E> {
 	}
 	@Override
 	public boolean remove(E element) {
-		// TODO Auto-generated method stub
+		if(find(element))
+		{
+			changed = true;
+			if(head == tail)
+			{
+				head = null;
+				tail = null;
+				forwardIterator = null;
+				backIterator = null;
+			}
+			else if(foundItem == head)
+			{
+				head = foundItem.getNext();
+				foundItem.getNext().setPrev(null);
+				resetIterator();
+			}
+			else if(foundItem == tail)
+			{
+				tail = foundItem.getPrev();
+				foundItem.getPrev().setNext(null);
+				resetBackIterator();
+			}
+			else
+			{
+				foundItem.getPrev().setNext(foundItem.getNext());
+				foundItem.getNext().setPrev(foundItem.getPrev());
+			}
+			length--;
+			return true;
+			
+		}
 		return false;
 	}
 
@@ -160,7 +242,7 @@ public class LLBasedList<E> implements ListInterface<E> {
 	@Override
 	public E get(E element) { //Alex
 		if(find(element))
-			return forwardIterator.getInfo();
+			return foundItem.getInfo();
 		else
 			return null;
 	}
@@ -207,6 +289,8 @@ public class LLBasedList<E> implements ListInterface<E> {
 	
 	@Override
 	public String toString() { //Wes
+		if(isEmpty())
+			return "List is empty";
 		String result = "";
 		LLNode<E> currentNode = head;
 		while(currentNode.getNext() != null) {
