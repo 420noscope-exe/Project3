@@ -7,7 +7,7 @@ public class PerformanceTest {
 	public static void main(String[] args) {
 		
 		int size = 30000;
-		int avg = 0;
+		long avg = 0;
 		LLBasedList<Integer> list = new LLBasedList<>();
 		for (int i = 0; i < size; i++) {
             		list.add(i);
@@ -31,6 +31,7 @@ public class PerformanceTest {
 	    System.out.println("Search for " + size);
 	    
 	    list.setFind(2);
+	    list.contains(15000); //First find2 just to create array
 	    avg = 0;
 	    for (int i = 0; i < 5; i++) {
 	    	int num = (int) (Math.random() * size);
